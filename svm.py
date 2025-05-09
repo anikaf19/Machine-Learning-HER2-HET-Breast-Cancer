@@ -8,7 +8,6 @@ from sklearn.inspection import permutation_importance
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-
 transcripts = pd.read_csv("/Users/anikaflorin/Documents/Thesis/data/ML-ready-filtered.csv")
 X = transcripts.drop(columns=['pCR'])
 y = transcripts['pCR']
@@ -31,30 +30,6 @@ svm.fit(X_train,y_train)
 y_train_pred = svm.predict(X_train)
 y_pred = svm.predict(X=X_test)
 
-
-result = permutation_importance(svm,X_test,y_test, n_repeats=10, random_state=42, n_jobs=-1)
-
-perm_df = pd.DataFrame({
-    'Feature': X.columns.values,
-    'Importance_Mean': result.importances_mean,
-    'Importance_STD': result.importances_std
-}).sort_values(by='Importance_Mean', ascending=False)
-
-top_features = perm_df.head(20)
-plt.figure(figsize=(10,8))
-sns.barplot(
-    data=top_features,
-    y='Feature',
-    x ='Importance_Mean',
-    #xerr=top_features['Importance_STD'],
-    palette='viridis'
-)
-plt.title('Top 20 Feature Importance (Permutation)')
-plt.xlabel('Mean Importance')
-plt.ylabel('Feature')
-plt.tight_layout()
-plt.show()
-print(perm_df.head(20))
 # Compute performance metrics
 train_accuracy = accuracy_score(y_train,y_train_pred)
 train_precision = precision_score(y_train,y_train_pred,pos_label=1)
