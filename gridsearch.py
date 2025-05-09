@@ -9,7 +9,6 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.impute import SimpleImputer, KNNImputer
 
-
 data = pd.read_csv('/Users/anikaflorin/Documents/Thesis/data/ML-ready-filtered.csv')
 
 X = data.drop(columns=['pCR'])
@@ -19,13 +18,6 @@ imputer = KNNImputer(n_neighbors=3)
 X_imputed = imputer.fit_transform(X)
 
 X_train, X_test, y_train, y_test = train_test_split(X_imputed,y,test_size=0.3,random_state=42)
-# impute if using scaled pipeline??
-# imputer = SimpleImputer(strategy='mean')
-# X_train = imputer.fit_transform(X_train)
-# X_test = imputer.transform(X_test)
-
-
-
 
 # create/define pipelines
 pipeline = Pipeline([
@@ -94,4 +86,3 @@ else:
     print('Best Overall Model (No Scaling):', noscale_grid.best_estimator_)
     print('Hyperparameters:', noscale_grid.best_params_)
     print('Accuracy:', accuracy_score(y_test, noscale_grid.predict(X_test)))
-    
